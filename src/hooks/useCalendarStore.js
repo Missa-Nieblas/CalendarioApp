@@ -33,10 +33,15 @@ export const useCalendarStore = () => {
                 Swal.fire('Error al Guardar', error.response.data.msg, 'error' );
         }
     }
-    const startDeletingEvent = () => {
+    const startDeletingEvent = async() => {
         //Todo: Llegar al Backend
-
-        dispach( onDeleteEvent() );
+        try {
+            await calendarApi.delete(`/events/${ activeEvent.id }`);
+            dispach( onDeleteEvent() );    
+        } catch (error) {
+            Swal.fire('Error al Eliminar :,v', error.response.data.msg, 'error' );
+        }
+        
     }
 
     const startLoadingEvents = async() => {
